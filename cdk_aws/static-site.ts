@@ -14,8 +14,8 @@ export class StaticSite extends Stack{
 
         const cloudfrontOAI = new cloudfront.OriginAccessIdentity(this, "JSCC-OAI")
 
-        const siteBucket = new s3.Bucket(this, "JSCCStaticBucket", {
-            bucketName: "my-custom-rs-app",
+        const siteBucket = new s3.Bucket(this, "RssBucket", {
+            bucketName: "my-custom1-rs-app",
             websiteIndexDocument: "index.html",
             publicReadAccess: false,
             blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL
@@ -27,7 +27,7 @@ export class StaticSite extends Stack{
             principals: [new iam.CanonicalUserPrincipal(cloudfrontOAI.cloudFrontOriginAccessIdentityS3CanonicalUserId)]
         }))
 
-        const distribution = new cloudfront.CloudFrontWebDistribution(this, "JSCC-distribution", {
+        const distribution = new cloudfront.CloudFrontWebDistribution(this, "RssDistribution", {
             originConfigs: [{
                 s3OriginSource: {
                     s3BucketSource: siteBucket,
@@ -39,7 +39,7 @@ export class StaticSite extends Stack{
             }]
         })
 
-        new s3deploy.BucketDeployment(this, "JSCC-Bucket-Deployment", {
+        new s3deploy.BucketDeployment(this, "RssDeployment", {
             sources: [s3deploy.Source.asset("../dist")],
             destinationBucket: siteBucket,
             distribution,
