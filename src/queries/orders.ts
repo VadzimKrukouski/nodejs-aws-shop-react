@@ -7,7 +7,7 @@ import { Order } from "~/models/Order";
 
 export function useOrders() {
   return useQuery<Order[], AxiosError>("orders", async () => {
-    const res = await axios.get<Order[]>(`${API_PATHS.order}/order`);
+    const res = await axios.get<Order[]>(`${API_PATHS.order}/api/profile/order`);
     return res.data;
   });
 }
